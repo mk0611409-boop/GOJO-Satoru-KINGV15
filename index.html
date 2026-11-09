@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>👑 GOJO SATORU KING | FOX</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root { --purple: #8b5cf6; --gold: #fbbf24; --bg: #0a0a0f; }
+        body { font-family: 'Inter', sans-serif; background: radial-gradient(circle at 50% 0%, #1c1335 0%, #050508 70%); color: white; margin: 0; min-height: 100vh; overflow-x: hidden; }
+        .title-font { font-family: 'Cinzel', serif; }
+        
+        .gold-text { background: linear-gradient(90deg, #fde68a, #fbbf24, #d97706, #fbbf24); -webkit-background-clip: text; background-clip: text; color: transparent; background-size: 200% auto; animation: shine 4s linear infinite; text-shadow: 0 0 20px rgba(251, 191, 36, 0.2); }
+        @keyframes shine { to { background-position: 200% center; } }
+
+        .aura { position: relative; display: inline-block; border-radius: 50%; padding: 5px; background: conic-gradient(from 0deg, #8b5cf6, #22d3ee, #a855f7, #8b5cf6); animation: spin 6s linear infinite; box-shadow: 0 0 40px rgba(139, 92, 246, 0.6); }
+        .aura img { width: 12rem; height: 12rem; border-radius: 50%; object-fit: cover; border: 4px solid #0a0a0f; animation: spin-reverse 6s linear infinite; background: #000; display: block; }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+        @keyframes spin-reverse { 100% { transform: rotate(-360deg); } }
+
+        .glass-panel { background: rgba(15, 15, 25, 0.7); backdrop-filter: blur(16px); border: 1px solid rgba(139, 92, 246, 0.3); box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5); }
+        .chat-box::-webkit-scrollbar { width: 5px; }
+        .chat-box::-webkit-scrollbar-thumb { background: var(--purple); border-radius: 5px; }
+        
+        .msg-user { background: rgba(139, 92, 246, 0.2); border: 1px solid rgba(139, 92, 246, 0.5); border-radius: 15px 15px 0 15px; }
+        .msg-user.vip { background: rgba(251, 191, 36, 0.15); border: 1px solid rgba(251, 191, 36, 0.6); box-shadow: 0 0 10px rgba(251, 191, 36, 0.2); }
+        .msg-ai { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 15px 15px 15px 0; position: relative; padding-right: 35px; }
+        
+        .speak-btn { position: absolute; top: 10px; right: 10px; background: transparent; border: none; cursor: pointer; color: #8b5cf6; transition: 0.2s; font-size: 18px; }
+        .speak-btn:hover { color: #c4b5fd; transform: scale(1.1); }
+
+        .typing-dot { display: inline-block; width: 6px; height: 6px; background: var(--purple); border-radius: 50%; margin: 0 2px; animation: bounce 1.2s infinite; }
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes bounce { 0%, 80%, 100% { transform: translateY(0); } 40% { transform: translateY(-6px); } }
+        .particle { position: fixed; border-radius: 50%; pointer-events: none; background: radial-gradient(circle, #a78bfa, transparent 70%); animation: float linear infinite; z-index: -1; opacity: 0.4; }
+        @keyframes float { from { transform: translateY(100vh) scale(0); } to { transform: translateY(-10vh) scale(1); } }
+    </style>
+</head>
+<body class="flex flex-col items-center relative">
+
+    <div id="particles"></div>
+
+    <header class="text-center mt-12 px-4 z-10">
+        <div class="aura mb-6 mx-auto">
+            <img src="https://i.ibb.co/6PZk6y5/gojo.jpg" alt="Gojo Satoru">
+        </div>
+        <h1 class="title-font text-4xl md:text-6xl gold-text mb-2 font-black tracking-widest">GOJO SATORU</h1>
+        <p class="text-purple-400 text-sm md:text-base tracking-[0.4em] uppercase mb-4">The Honored One</p>
+    </header>
+
+    <main class="w-full max-w-2xl px-4 mt-10 z-10 mb-20">
+        <div class="glass-panel rounded-3xl p-6">
+            
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="title-font text-xl text-purple-300 flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                    FOX
+                </h2>
+                <button id="voiceToggle" class="bg-gray-700 hover:bg-gray-600 text-white text-xs px-3 py-1.5 rounded-lg transition">🔈 تفعيل الصوت</button>
+            </div>
+
+            <div id="chat" class="chat-box h-80 overflow-y-auto mb-4 flex flex-col gap-3 text-sm pr-2">
+                <div class="msg-ai p-3 max-w-[85%]">
+                    <span class="text-purple-400 font-bold block mb-1">FOX:</span> 
+                    Welcome. I am FOX. Type your name to begin.
+                </div>
+            </div>
+
+            <div class="flex gap-2">
+                <input id="input" type="text" placeholder="Ask FOX..." class="flex-1 bg-black/50 border border-purple-500/30 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500 transition">
+                <button id="send" class="bg-purple-600 hover:bg-purple-700 text-white font-bold px-6 rounded-xl transition shadow-[0_0_15px_rgba(139,92,246,0.5)]">
+                    Ask
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // خلفية متحركة
+        const particlesContainer = document.getElementById('particles');
+        for (let i = 0; i < 20; i++) {
+            const p = document.createElement('div');
+            p.className = 'particle';
+            const size = Math.random() * 4 + 1;
+            p.style.width = size + 'px';
+            p.style.height = size + 'px';
+            p.style.left = Math.random() * 100 + 'vw';
+            p.style.animationDuration = (Math.random() * 10 + 10) + 's';
+            p.style.animationDelay = Math.random() * 10 + 's';
+            particlesContainer.appendChild(p);
+        }
+
+        const chat = document.getElementById('chat');
+        const input = document.getElementById('input');
+        const sendBtn = document.getElementById('send');
+        const voiceToggle = document.getElementById('voiceToggle');
+        
+        const API_KEY = "sk-or-ضع_مفتاحك_هنا"; 
+        const MODEL = "meta-llama/llama-3-8b-instruct:free";
+
+        let isVoiceEnabled = false;
+        let savedUsername = localStorage.getItem('fox_username') || null;
+        let isVIP = localStorage.getItem('fox_vip') === 'true';
+
+        // تحميل الأصوات
+        window.speechSynthesis.onvoiceschanged = () => {};
+
+        // تفعيل الصوت
+        voiceToggle.onclick = () => {
+            isVoiceEnabled = !isVoiceEnabled;
+            if(isVoiceEnabled) {
+                voiceToggle.innerHTML = "🔊 الصوت مفعل";
+                voiceToggle.classList.replace('bg-gray-700', 'bg-green-600');
+                voiceToggle.classList.replace('hover:bg-gray-600', 'hover:bg-green-500');
+                speakText("Voice enabled.");
+            } else {
+                voiceToggle.innerHTML = "🔈 تفعيل الصوت";
+                voiceToggle.classList.replace('bg-green-600', 'bg-gray-700');
+                voiceToggle.classList.replace('hover:bg-green-500', 'hover:bg-gray-600');
+                window.speechSynthesis.cancel();
+            }
+        };
+
+        function speakText(text) {
+            if (!isVoiceEnabled) return;
+            window.speechSynthesis.cancel(); 
+            let cleanText = text.replace(/<[^>]*>?/gm, '').replace(/&nbsp;/g, ' ');
+            const utterance = new SpeechSynthesisUtterance(cleanText);
+            const voices = window.speechSynthesis.getVoices();
+            if (voices.length > 0) {
+                const isArabic = /[\u0600-\u06FF]/.test(cleanText);
+                let selectedVoice = null;
+                if (isArabic) selectedVoice = voices.find(v => v.lang.includes('ar'));
+                else selectedVoice = voices.find(v => v.lang.includes('en-US') || v.lang.includes('en-GB'));
+                if (selectedVoice) utterance.voice = selectedVoice;
+            }
+            utterance.rate = 1.0; utterance.pitch = 1.0;
+            window.speechSynthesis.speak(utterance);
+        }
+
+        // إضافة الرسائل
+        function addMessage(text, isUser) {
+            const div = document.createElement('div');
+            
+            // تنسيق خاص لو المستخدم VIP
+            if (isUser) {
+                div.className = isVIP ? 'msg-user vip p-3 self-end max-w-[85%] ml-auto text-right' : 'msg-user p-3 self-end max-w-[85%] ml-auto text-right';
+            } else {
+                div.className = 'msg-ai p-3 max-w-[85%]';
+            }
+            
+            let speakBtnHtml = '';
+            if (!isUser) {
+                speakBtnHtml = `<button class="speak-btn" onclick="speakText(this.parentElement.innerText.replace('FOX:', ''))">🔊</button>`;
+            }
+
+            // اسم المستخدم والرتبة
+            let userTitle = savedUsername ? `<span class="text-purple-300 font-bold block mb-1">${isVIP ? '👑 VIP' : ''} ${savedUsername}:</span>` : `<span class="text-purple-300 font-bold block mb-1">You:</span>`;
+
+            div.innerHTML = isUser 
+                ? `${userTitle} ${text}` 
+                : `${speakBtnHtml}<span class="text-purple-400 font-bold block mb-1">FOX:</span> ${text}`;
+                
+            chat.appendChild(div);
+            chat.scrollTop = chat.scrollHeight;
+        }
+
+        function addTyping() {
+            const div = document.createElement('div');
+            div.className = 'msg-ai p-3 max-w-[85%]';
+            div.innerHTML = `<span class="text-purple-400 font-bold block mb-1">FOX:</span> 
+                <div class="flex gap-1 mt-2">
+                    <span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span>
+                </div>`;
+            chat.appendChild(div);
+            chat.scrollTop = chat.scrollHeight;
+            return div;
+        }
+
+        async function askOracle() {
+            const text = input.value.trim();
+            if (!text) return;
+
+            // حفظ الاسم والتحقق من الـ VIP
+            if (!savedUsername && text.toLowerCase().includes('محمود')) {
+                savedUsername = 'محمود';
+                isVIP = true;
+                localStorage.setItem('fox_username', savedUsername);
+                localStorage.setItem('fox_vip', 'true');
+                
+                // رد ترحيبي خاص
+                addMessage(text, true);
+                input.value = '';
+                const typing = addTyping();
+                setTimeout(() => {
+                    typing.remove();
+                    const welcomeMsg = `Welcome to the VIP club, Mahmoud! 👑 You are the first one. Your name is saved and you now have VIP privileges.`;
+                    addMessage(welcomeMsg, false);
+                    speakText(welcomeMsg);
+                }, 1000);
+                return;
+            } else if (!savedUsername) {
+                // لو كتب اسم غير محمود
+                savedUsername = text.split(' ')[0];
+                localStorage.setItem('fox_username', savedUsername);
+            }
+
+            addMessage(text, true);
+            input.value = '';
+            const typing = addTyping();
+
+            if (API_KEY.includes('ضع')) {
+                typing.remove();
+                addMessage("⚠️ Open the code and paste your OpenRouter API key where it says API_KEY.", false);
+                return;
+            }
+
+            try {
+                const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${API_KEY}`
+                    },
+                    body: JSON.stringify({
+                        model: MODEL,
+                        messages: [
+                            { role: "system", content: `You are FOX, with the personality of Satoru Gojo. ${isVIP ? 'The user is Mahmoud, a VIP. Treat him with extra respect and acknowledge his VIP status.' : ''} Answer with confidence and power. Keep it concise. Answer in the same language as the user.` },
+                            { role: "user", content: text }
+                        ]
+                    })
+                });
+
+                const data = await res.json();
+                typing.remove();
+
+                if (data.error) throw new Error(data.error.message);
+                
+                const reply = data.choices[0].message.content;
+                addMessage(reply.replace(/\n/g, '<br>'), false);
+                speakText(reply);
+
+            } catch (err) {
+                typing.remove();
+                addMessage(`⚠️ Error: ${err.message}`, false);
+            }
+        }
+
+        sendBtn.onclick = askOracle;
+        input.onkeypress = (e) => { if (e.key === 'Enter') askOracle(); };
+    </script>
+</body>
+  </html>
